@@ -1,0 +1,23 @@
+<h2>DiEM25 wants your input, <%= @user.name %>!</h2>
+
+<p>A new proposal has just been opened to vote in the DiEM25 members-only area. The title is: <%= @vote.title %></p>
+
+<p>Please go to <a href="<%= show_referendum_url(@vote) %>"><%= show_referendum_url(@vote) %></a> in order to cast your vote. DiEM25 lives on its internal democracy!</p>
+
+<% if @user.verification_state == 0 %>
+<p>In order to vote, it is necessary to have a verified account. We noted that your email address isn't confirmed yet, so please 
+click on the link below in order to confirm it:</p> 
+
+<p><a href="<%= confirmation_url(@user, confirmation_token: @user.token) %>"><%= confirmation_url(@user, confirmation_token: @user.token) %></a></p>
+
+<% elsif @user.verification_state < 3 %>
+<p>In order to vote, it is necessary to have a verified account. We noted that your phone number isn't verified yet, so please 
+click on the link below in order to verify it:</p> 
+
+<p><a href="<%= new_verification_url %>"><%= new_verification_url %></a></p>
+
+<% end %>
+
+<p>Contact info@diem25.org for any questions.</p>
+
+<p><strong>Carpe DiEM25!</strong></p>

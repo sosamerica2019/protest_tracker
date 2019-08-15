@@ -1,0 +1,408 @@
+<%= tinymce_assets %>
+<%= form_with(model: event, local: true, html: { class: "directUpload form-horizontal", data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } }) do |f| %>
+  <% if event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	
+<div class="panel-group">
+<div class="panel panel-default">
+  <div class="panel-heading collapser active" data-target="#basics">
+    <h4><%= t("register.heading_basics") %></h4>
+  </div>
+  
+  <div id="basics" class="collapse in" style="display: block;">
+  <div class="panel-body">   
+  
+    <div class="form-group">
+      <%= f.label :title, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+        <%= f.text_field :title, class: "form-control" %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :organizer_name, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+        <%= f.text_field :organizer_name, class: "form-control" %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :event_type, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+			  <% options = %w(home demonstration meal picknick party lecture debate flashmob workshop movie book_presentation internal work_meeting volunteering outdoors) %>
+		    <%= f.select :event_type, options_for_select(t_for_select(options, 'events.types').sort, @event.event_type), {}, { :class => 'form-control mbottom'} %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :audience, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+        <% options = %w(i d j p) %>
+		    <%= f.select :audience, options_for_select(t_for_select(options, 'events.audience').sort, @event.audience), {}, { :class => 'form-control mbottom'} %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :event_start, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-6">
+		    <%= f.datetime_select :event_start, class: "form-control" %>
+				<p class="help-block"><%= t("events.long_event") %></p>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :description, class: "col-xs-offset-1 col-xs-8 control-label", style: "text-align: left" %>
+	    <div class="col-xs-offset-2 col-xs-10 col-md-8">
+        <%= f.text_area :description, class: "form-control tinymce", rows: 15 %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :travel_distance, class: "col-xs-offset-1 col-xs-8 control-label", style: "text-align: left" %>
+	    <div class="col-xs-offset-4 col-xs-8 col-md-6">
+        <% options = [["40km", 40], ["80km", 80], ["120km", 120], ["160km", 160], ["240km", 240], ["320km", 320], ["> 320km", 999], [t("events.type_online"), 40000]] %>
+		    <%= f.select :travel_distance, options_for_select(options, @event.travel_distance), {}, { :class => 'form-control mbottom', id: :event_travel_distance} %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :rsvp_address, class: "col-xs-12 col-md-9 control-label" %>
+	    <div class="col-xs-offset-4 col-xs-8 col-md-6">
+        <%= f.text_field :rsvp_address, class: "form-control" %>
+	    </div>
+    </div>
+		
+	</div>
+</div></div> <!–– div#basics panel ––>
+	
+<div class="panel panel-default">
+  <div class="panel-heading collapser active" data-target="#location">
+    <h4><%= t("events.location") %></h4>
+  </div>
+	
+	<div id="location" class="collapse in" style="display: block;">
+  <div class="panel-body">   
+		
+		<script>
+	  $( document ).ready(function() {
+		  $('#event_travel_distance').change(function() {
+			  if ($('#event_travel_distance').val() == '40000') {
+				  // online event
+					$('#event_location_name').val("online");
+					$('#event_location_name').prop('disabled', true);
+					$('#event_location_geo').prop('disabled', true);
+					hide_form_element_and_label('event_location_city');
+					hide_form_element_and_label('event_location_country');
+					hide_form_element_and_label('event_location_geo');
+				} else {
+				  if ($('#event_location_name').val == 'online') {  $('#event_location_name').val(""); }
+					$('#event_location_name').prop('disabled', false);
+					$('#event_location_geo').prop('disabled', false);
+					show_form_element_and_label('event_location_city');
+					show_form_element_and_label('event_location_country');
+					show_form_element_and_label('event_location_geo');
+				}
+			});
+			$( "form" ).submit(function( event ) {
+        $('#event_location_name').prop('disabled', false);
+      });
+			
+			// initial call
+			 $('#event_travel_distance').change();
+		});
+	  </script>
+  
+    <div class="form-group">
+      <%= f.label :location_name, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+        <%= f.text_field :location_name, class: "form-control",  id: :event_location_name %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :location_address, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+        <%= f.text_area :location_address, class: "form-control",  rows: 5, id: :event_location_address %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :location_city, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+        <%= f.text_field :location_city, class: "form-control",  id: :event_location_city %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :location_country, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+        <%= f.country_select :location_country, { include_blank: true }, { class: 'form-control', id: :event_location_country } %> 
+	    </div>
+    </div>
+		
+		<!-- Geolocation code -->
+		<div class="form-group">
+      <%= f.label :location_geo, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8">
+        <div id="map" style="height: 400px"></div>	
+				<% if @event.location_geo %>
+				  <%= f.hidden_field :location_geo, id: :event_location_geo, value: @event.location_geo.values.join(",") %> 
+				<% else %>
+          <%= f.hidden_field :location_geo, id: :event_location_geo %> 
+				<% end %>
+				<div id="floating-panel">
+          <input id="address" type="textbox" value="<ADDRESS HERE>, <%= @event.location_city %>, <%= @event.location_country_name %>" style="width: 80%">
+          <input id="do_geocode" type="button" value="Find">
+        </div>
+	    </div>
+    </div>
+		
+		<style>
+		  #floating-panel {
+    position: relative;
+    top: -390px;
+    left: 10px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 23px;
+    padding-left: 10px;
+    width: 80%;
+      }
+		</style>
+		
+		<div class="form-group">
+      <%= f.label :location_size, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+       <%= f.number_field :location_size, class: "form-control", id: :event_location_size %> 
+	    </div>
+    </div>
+		
+	</div>
+</div></div> <!–– div#location panel ––>
+
+
+<div class="panel panel-default">
+  <div class="panel-heading collapser active" data-target="#extra">
+    <h4><%= t("events.extra") %></h4>
+  </div>
+	
+	<div id="extra" class="collapse in">
+  <div class="panel-body">   
+  
+    <div class="form-group">
+		  <% if @event.picture_url.nil? and not Rails.env.test?  # only if not uploaded yet %>
+	      <div class="form-group">
+          <%= f.label :picture_url, class: "col-xs-4 control-label" %>
+          <div class="col-xs-8 col-md-6">
+            <%= f.file_field :picture_url %>  <i>JPG, JPEG, PNG, GIF or SVG</i> 
+          </div>
+        </div>
+	    <% elsif @event.picture_url.nil? and Rails.env.test? %>
+	      <%= f.hidden_field :picture_url, value: nil %>
+	    <% else %>
+	      <div class="form-group">
+          <%= f.label :picture_url, class: "col-xs-4 control-label" %>
+          <div class="col-xs-8 printed-form-data">
+			      <%= f.hidden_field :picture_url, value: @event.picture_url %>
+            <%= link_to "Picture", @event.picture_url %> <i>JPG, JPEG, PNG, GIF or SVG</i> 
+						<%= f.file_field :picture_url %>
+          </div>
+        </div>
+	    <% end %>
+    </div>    
+		
+		<div class="form-group">
+      <%= f.label :event_end, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8">
+        <span id="show_event_end" class="btn btn-default"><%= t("events.enter_end") %></span>
+				<div id="event_end_select" style="display: none">
+				  <%= f.datetime_select :event_end, default: (@event.event_end || (@event.event_start + 2.hours)), class: "form-control", id: :event_end %>
+					<%= f.hidden_field :end_nil, value: "1", id: :event_end_nil %>
+					<span id="hide_event_end" class="btn btn-default">No end time</span>
+				</div>
+	    </div>
+			
+			<script>
+	    $( document ).ready(function() {
+		    $('#show_event_end').click(function() {
+			    $("#event_end_select").show();
+				  $("#show_event_end").hide();
+				  $("#event_end_nil").val("0");
+			  });
+			  $('#hide_event_end').click(function() {
+			    $("#event_end_select").hide();
+				  $("#event_event_end").hide();
+				  $("#show_event_end").show();
+				  $("#event_end_nil").val("1");
+			  });
+				
+				<% if @event and !@event.event_end.nil? %>
+			    $('#show_event_end').click();
+				<% else %>
+				  $('#hide_event_end').click();  
+			  <% end %>
+				
+		  });
+		
+	    </script>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :details_url, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-6">
+        <%= f.text_field :details_url, class: "form-control", placeholder: "https://"  %>
+	    </div>
+    </div>
+		
+		<div class="form-group">
+      <%= f.label :tickets_url, class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-6">
+        <%= f.text_field :tickets_url, class: "form-control", placeholder: "https://" %>
+	    </div>
+    </div>
+		
+	</div>
+</div></div> <!–– div#extra panel ––>	
+<%= tinymce %>
+
+	<% if current_user.is_admin? %>
+	  <p>&nbsp;</p>
+	  <div class="form-group">
+      <%= f.label :moderation, "Moderation state:", class: "col-xs-4 control-label" %>
+	    <div class="col-xs-8 col-md-4">
+			  <% options = [["unmoderated", "u"], ["suspicious", "s"], ["rejected", "r"], ["approved", "a"]] %>
+		    <%= f.select :moderation, options_for_select(options, @event.moderation), {}, { :class => 'form-control mbottom'} %>
+	    </div>
+    </div>
+	
+	<% end %>
+	
+</div> <!–– div#panel-group ––>
+	
+  <div class="form-group">
+    <div class="col-xs-offset-4 col-xs-8">
+      <%= f.submit t('buttons.save'), class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQ9opO1VpKTYXLCLuf9978YCAroQ009As&callback=initialize" type="text/javascript"></script>
+<script>
+var map;
+var marker;
+
+function initialize() {
+  <% if @event.location_geo %>
+	var loc_geo = new google.maps.LatLng(<%= @event.location_geo.values.join(",") %>);
+  var mapOptions = {
+    zoom: 16,
+    center: loc_geo
+  }
+	<% else %>
+	var paris = new google.maps.LatLng(48.86100157399595,2.335891842842086);
+  var mapOptions = {
+    zoom: 4,
+    center: paris
+  }
+	<% end %>
+  map = new google.maps.Map(document.getElementById("map"), mapOptions);
+	var geocoder = new google.maps.Geocoder();
+
+  document.getElementById('do_geocode').addEventListener('click', function() {
+    geocodeAddress(geocoder, map);
+  });
+	document.getElementById('address').addEventListener("keyup", function(event) {
+	  event.preventDefault();
+    if (event.keyCode === 13) {  // trigger search upon Enter key
+      geocodeAddress(geocoder, map);
+    }
+		false;
+  });
+	
+	<% if @event.location_geo %>
+	marker = new google.maps.Marker({
+    position: map.getCenter(),
+    map: map,
+    draggable: true,
+  });
+	google.maps.event.addListener(marker, 'dragend', function() {
+      copyMarkerpositionToInput();
+  });
+	<% end %>
+}
+
+function dropPin() {
+  // if any previous marker exists, let's first remove it from the map
+  if (marker) {
+    marker.setMap(null);
+  }
+  // create the marker
+  marker = new google.maps.Marker({
+    position: map.getCenter(),
+    map: map,
+    draggable: true,
+  });
+  copyMarkerpositionToInput();
+  // add an event "onDrag"
+  google.maps.event.addListener(marker, 'dragend', function() {
+    copyMarkerpositionToInput();
+  });
+}
+
+function geocodeAddress(geocoder, resultsMap) {
+  var address = document.getElementById('address').value;
+  geocoder.geocode({'address': address}, function(results, status) {
+  if (status === 'OK') {
+    loc = results[0].geometry.location;
+		resultsMap.setCenter(loc);
+		resultsMap.setZoom(16);
+		// if any previous marker exists, let's first remove it from the map
+    if (marker) {
+      marker.setMap(null);
+    }
+    marker = new google.maps.Marker({
+      map: resultsMap,
+			draggable: true,
+      position: loc
+    });
+		document.getElementById("event_location_geo").value = loc.lat() + ',' + loc.lng();
+		google.maps.event.addListener(marker, 'dragend', function() {
+      copyMarkerpositionToInput();
+    });
+  } else {
+    alert('The location could not be placed, for the following reason: ' + status);
+  }
+  });
+}
+
+function copyMarkerpositionToInput() {
+  // get the position of the marker, and set it as the value of input
+  document.getElementById("event_location_geo").value = marker.getPosition().lat() +','+  marker.getPosition().lng();
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if((event.keyCode == 13) && ($(event.target)[0]!=$("textarea")[0])) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>

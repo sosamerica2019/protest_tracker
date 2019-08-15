@@ -1,0 +1,16 @@
+<style>
+a {
+  font-weight: bold;
+	color: red;
+}
+</style>
+
+<p><%= t("general.dear", name: @user.personal_name) %></p>
+
+<p><%= t("events.approved_mail.para1", title: @event.title) %> <a href="https://i.diem25.org/events/<%= @event.id %>">https://i.diem25.org/events/<%= @event.id %></a>
+
+<p><%= t("contact_all.hint") %></p>
+
+<p><b><%= t("general.carpe") %></b></p>
+
+<p><%= t("general.full_signature_html") %></p>

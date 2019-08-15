@@ -1,0 +1,97 @@
+<div class="titles-with-join-banner">
+  <div class="texts">
+    <h2><%= @h2_title %></h2>
+    <h3><%= t("newsletter.headline") %></h3>
+  </div>
+</div>
+  
+<div class="content col-md-6 info-column">
+  <h4 class="red"><%= t('general.what') %></h4>
+  <p><%= t('register.desc1') %></p>
+  
+  <h4 class="red"><%= t('register.alternative_headline') %></h4>
+  <p><%= t('register.quick_benefit') %> <%= link_to t('register.link'), new_registration_path(User, 'org' => @org, 'refer' => @refer) %></p>
+</div>  
+  
+<div class="content col-md-6 form-column">
+  
+  <%= form_for(@user, url: create_newsletter_subscription_path, html: {class: "lightform"}) do |f| %>
+    <% if @user.errors.any? %>
+      <div id="error_explanation">
+        <h2>There were <%= pluralize(@user.errors.count, "error") %> subscribing you to our newsletter:</h2>
+
+        <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :email, class: "control-label" %>
+      <%= f.email_field :email, class: "form-control" %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :personal_name, class: "control-label" %>
+      <%= f.text_field :personal_name, class: "form-control" %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :family_name, class: "control-label" %>
+      <%= f.text_field :family_name, class: "form-control" %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :language, t('newsletter.language'), class: "control-label" %>
+      <%= f.select :language, %w[English Français Deutsch Italiano Español Português Ελληνικά], {}, { :class => 'form-control' } %>
+    </div>
+
+    <div class="form-group">
+      <label id="terms_of_service" class="checkbox-label">
+			  <%= f.check_box :terms_of_service %> 
+        <%= string_with_link(t('newsletter.confirm') + " " + t('newsletter.agree_privacy'), "https://www.iubenda.com/privacy-policy/" + PRIVACY_POLICY_CODE[I18n.locale]) %>
+			</label>
+    </div>
+    
+    <div class="form-group">
+   
+      <div style="text-align: right">
+        <%= f.submit t('newsletter.button'), class: "btn btn-danger my-btn" %> 
+      </div>        
+        <p>&nbsp;</p>
+ 
+      <p class="help-block"><%= string_with_link(t('newsletter.desc2'), "mailto:info@diem25.org") %> 
+          <%= string_with_link(t('register.safe_data'), "https://www.iubenda.com/privacy-policy/" + PRIVACY_POLICY_CODE[I18n.locale])  %></p>
+    </div>
+		
+		<%= f.hidden_field :refer, value: @refer %>
+    
+  <% end %>
+</div>
+
+<script>
+  $(document).ready(function() {
+	  if ($("#user_email").val() != "") {
+		  $("#user_personal_name").focus();
+		} else {
+		  $("#user_email").focus();
+		}
+	});
+</script>
+
+<style>
+.header2 .site-header {
+    display: none;
+}
+
+.navbar-header {
+    margin-top: 0;
+}
+
+.header2 .newedge-topbar .container {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+</style>

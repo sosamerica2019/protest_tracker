@@ -1,0 +1,40 @@
+<h2>Welcome to DiEM25, <%= @resource.name %>!</h2>
+
+<p><strong>Thank you for being among our early supporters!</strong> Please click the link below in order to confirm 
+that it was really you who filled out our membership form.</p>
+
+<p><%= link_to t('verify.email_confirm_button'), confirmation_url(@resource, confirmation_token: @token), style: "font-weight: 500; font-size: 20px; line-height: 42px;" %><br>
+<%= confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p><strong> Now ideally, we should all get together to welcome each other to <strong>DiEM25! </strong></p>
+
+<p>Alas, Europe is too large to allow this!</p>
+
+<p>Europe may be very large but it is not powerful enough to withstand the destructive forces that are tearing the EU apart.</p>
+
+<p>The reason? With their incompetence and authoritarianism, the EU establishment have turned Europeans against it.</p>
+
+<p>Whatever we may think of the EU, its disintegration today threatens the peoples of Europe with a (post)modern 
+version of the 1930s.</p>
+
+<p>To resist these forces threatening Europe’s weakest citizens, its culture of tolerance, and its basic humanism, 
+the European Union must be democratised.</p>
+
+<p>Nothing else will do!</p>
+
+<p>We formed DiEM25 to create a movement to reverse Europe’s disintegration. With you, and each one of us, as its 
+principal agent. Together we stand a chance. Divided we shall surely fall.</p>
+
+<p>We have much work to do. The first step was completed when you joined DiEM. You will now get regular updates 
+whenever DiEM25 is planning another step and you will be able to contribute to DiEM's success. We also recommend 
+you check out the <a href="http://www.diem25.org/forum">Forum</a> (note this requires a separate sign-up).</p>
+
+<p><strong>Carpe DiEM25!</strong></p>
+
+<p>&nbsp;</p>
+
+<p>PS1. Please encourage friends and potential members to enrol on <a href="http://www.diem25.org" target="_blank" data-cke-saved-href="http://www.diem25.org">www.diem25.org</a></p>
+
+<p>PS2. If you want to volunteer, please check out <a href="http://diem25.org/volunteer-guidelines">these volunteer guidelines</a>. 
+If you cannot find the information you're looking for on this site, you can write to DiEM25 at <strong><a href="mailto:info@diem25.org" target="_blank">info@diem25.org</a></strong> 
+for information or <strong><a href="mailto:volunteer@diem25.org" target="_blank">volunteer@diem25.org</a></strong> for volunteer-related questions.</p>

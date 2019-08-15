@@ -1,0 +1,52 @@
+<div id="event-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: red; color: white">
+        <button type="button" class="close" data-dismiss="modal" style="color: black">&times;</button>
+        <h1 style="color: white"><%= @event.title %></h1>
+				<h5 style="color: white; font-size: 16px"><%= t("events.type." + @event.event_type) %> - <%= @event.organizer_name %></h5>
+      </div>
+
+      <div class="modal-body">
+				<div class="row" style="padding: 20px; padding-top: 0px; font-size: 20px;">
+				  <div class="col-xs-4"><%= l @event.event_start, format: :short %></div>
+					<div class="col-xs-4"><%= @event.location_name %></div>
+					<div class="col-xs-4"><% unless @event.online? %><%= @event.location_city %>, <%= @event.location_country_name %><% end %></div>
+				</div>
+				
+       	<%= @event.description.truncate(300).html_safe %>
+
+        <div class="buttons" style="text-align:left">
+					<% if @embed %>
+						<a href="javascript:redir_to('<%= event_path(@event) %>')" class="btn btn-danger">Full info</a>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" style="float: right"><%= t("buttons.close") %></button>
+					<% else %>
+					  <%= link_to "Full info", event_path(@event), class: "btn btn-danger" %>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" style="float: right"><%= t("buttons.close") %></button>
+				  <% end %>
+        </div>
+        
+        
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+ .modal-body h2, h3, h4, b, strong {
+   color: red!important;
+ }
+ .modal-header h1 {
+   font-size: 24px;
+ }
+ .full_event h2 {
+   font-size: 20px;
+ }
+ .read_more {
+   font-size: 16px;
+   color: grey;
+   font-style: italic;
+   float: right;
+ }
+</style>

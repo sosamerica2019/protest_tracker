@@ -1,0 +1,23 @@
+<%= t('newsletter.confirm_thanks', name: @resource.personal_name) %>
+
+-----------------------------------------------------------
+
+<%= t('newsletter.confirm_by_link') %>
+
+<%= confirmation_url(@resource, confirmation_token: @token) %>
+
+<%= t('newsletter.confirm_description') %>
+
+-----------------------------------------------------------
+
+<%= t('newsletter.confirm_dont_want') %>
+
+<%= t('newsletter.confirm_thanks2') %>
+
+<%= t('general.carpe') %>
+
+>><%= t('general.coordinating_collective') %>
+
+<%= (t('newsletter.confirm_ps') + " " + t('newsletter.confirm_follow_twitter') + " " + t('newsletter.confirm_follow_facebook')).gsub('__', '') %>.
+
+<%= t('general.privacy_policy') %>: https://www.iubenda.com/privacy-policy/<%= PRIVACY_POLICY_CODE[I18n.locale] %>

@@ -1,0 +1,19 @@
+<% if current_user.verification_state > 0 %>
+  <% status = Newsletter.get_status(current_user.email) %>
+	<% Newsletter.subscribe(current_user) if status == "not in system" and Rails.env.production? and !current_user.is_guest? # fix %>
+  <% if status == "unsubscribed" %>
+    <%= internal_alert("account.must_resubscribe", resubscribe_newsletter_path) %> 
+		<% Store.increase("resubscribe_seen_count") %>
+	<% elsif current_user.membership_fee == "unspecified" %>
+	  <%= internal_alert("account.please_choose_fee", upgrade_membership_path) %> 
+		<% Store.increase("unspecified_seen_count") %>
+	<% elsif status == "unopened" %>
+	  <%= internal_alert("account.please_read_newsletters_html") %> 
+		<% Store.increase("unopened_seen_count") %>
+  <% end %>
+  <% if current_user.verification_state < 3 and not @too_new %>
+    <%= internal_alert("verify.voting_restriction_html", new_verification_path)  %>
+  <% end %>
+<% else %>
+  <%= internal_alert("account.must_confirm_email") %> 
+<% end %>

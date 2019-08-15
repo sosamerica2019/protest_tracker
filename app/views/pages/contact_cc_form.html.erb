@@ -1,0 +1,57 @@
+<h2><%= t("contact.title") %></h2>
+<h2><%= t("contact.title") %></h2>
+
+<p style="margin-top: 20px"><%= t("contact.desc") %></p>
+
+<p style="margin-bottom: 20px"><%= linkup_email(t("contact.write_volunteer")) %> <%= linkup_email(t("contact.write_info")) %></p>
+
+<%= form_tag contact_cc_path, html: {class: "form-horizontal"} %>
+
+<div class="form-group">
+  <%= label_tag :subject, t("email.subject"), class: "col-xs-3 control-label" %>
+	<div class="col-xs-9">
+    <%= text_field_tag :subject, "", style: "width: 100%" %>
+	</div>
+</div>
+
+<div class="form-group">
+  <%= label_tag :body, t("email.message"), class: "col-xs-3 control-label" %>
+	<div class="col-xs-9">
+    <%= text_area_tag :body, "", style: "width: 100%", rows: 10  %>
+	</div>
+</div>
+
+<div class="form-group">
+<div class="col-xs-offset-3">
+    <p class="help-block" style="margin-left: 15px">
+      <%= t("contact.be_brief") %>
+			<br />
+    </p>
+  </div>
+  <div class="col-xs-offset-3 col-xs-9">
+    <%= submit_tag t('buttons.send'), class: "btn btn-primary" %>
+  </div>	
+	
+</div>
+
+</form>
+
+<script>
+$(document).ready(function() {
+	$(".btn-primary").click( function(event) {
+    if (!$("#subject").val()) {
+		  event.preventDefault(); 
+	    alert("Please enter a meaningful subject for your email.");
+	  } else if (!$("#body").val()) {
+		  event.preventDefault(); 
+	    alert("Please enter a message.");
+	  } else {
+	    return true;
+	  }
+  });
+});
+
+
+
+
+</script>

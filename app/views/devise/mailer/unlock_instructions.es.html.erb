@@ -1,0 +1,9 @@
+<p>¡Hola, <%= @resource.name %>!</p>
+
+<p>Tu cuenta en DiEM25-Interno ha sido bloqueada debido a una cantidad excesiva de intentos de acceder fallidos.</p>
+
+<p>Clica en el enlace de abajo para desbloquear tu cuenta:</p>
+
+<p><%= link_to 'Desbloquear mi cuenta', unlock_url(@resource, unlock_token: @token) %></p>
+
+<p>¡Carpe DiEM!</p>

@@ -1,0 +1,26 @@
+		<% if mobile? %>
+      <!-- Whatsapp -->
+			  <p><a target="_blank" class="wide_share wa" href="whatsapp://send?text=<%= u(alt + " " + action + " " + link) %>" data-action="share/whatsapp/share"><%= image_tag("whatsapp_tr.png") %> Share via Whatsapp</a>
+	  <% else %>
+			   <!-- Whatsapp -->
+			  <p><a target="_blank" class="wide_share wa" href="https://wa.me/?text=<%= u(alt + " " + action + " " + link) %>" data-action="share/whatsapp/share"><%= image_tag("whatsapp_tr.png") %> Share via Whatsapp</a>
+		<% end %>
+		
+      <!-- Email -->
+      <p><a href="mailto:?Subject=<%= alt %>&amp;Body=<%= u(alt + " " + action + " " + link) %>" class="wide_share eml">
+        <img src="https://simplesharebuttons.com/images/somacro/email.png" alt="Email" /> <%= t('general.share_email') %>
+      </a></p>  
+		
+		  <!-- Twitter -->
+      <p><a href="https://twitter.com/share?url=<%= link %>&amp;text=<%= u (alt + " " + action) %>&amp;hashtags=<%= @petition.hashtags %>" target="_blank" class="wide_share tw">
+        <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /> <%= t('general.share_twitter') %>
+      </a></p>
+			
+			<!--Telegram -->
+        <p><a target="_blank" class="wide_share tg" href="https://telegram.me/share/url?url=<%= link %>&text=<%= u (alt + " " + action) %>"><%= image_tag("telegram.png") %> Share on Telegram
+        </a></p>
+			
+      <!-- Facebook -->
+      <p><a href="http://www.facebook.com/sharer.php?u=<%= link %>&quote=<%= alt %>" target="_blank" class="wide_share fb">
+        <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" /> <%= t('general.share_facebook') %>
+      </a></p>

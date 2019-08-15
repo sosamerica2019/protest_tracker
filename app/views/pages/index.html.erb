@@ -1,0 +1,110 @@
+<h2><%= t('general.internal_headline') %></h2>
+
+<p><%= t('general.welcome', name: current_user.name) %> <%= t('general.internal_explanation1') %></p>
+
+<% # render partial: 'account_alerts' %>
+
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+	  <h4 class="dash_section"><%= t("news.title") %></h4>
+		<ul>
+		<% @news.each do |item| %>
+		  <li><%= link_to(item.title, item.url) %></li>
+		<% end %>
+		</ul>
+	</div>
+	
+	<div class="col-sm-12 col-md-6">
+	  <h4 class="dash_section"><%= t("events.title2") %></h4>
+		<%= render partial: 'events/quicklist', :locals => {events: @events} %>
+		
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+	
+	
+	    <h4 class="dash_section"><%= t('voting.open_elections') %></h4>
+<% if not @elections_active.empty? %>
+  <div class="row" id="elections_list_active">
+    <% @elections_active.each do |election| %>
+			<%= render partial: 'election_shortlink', :locals => {election: election} %>
+		<% end %>
+	</div>
+<% else %>
+  <p><%= t('voting.no_elections') %></p>
+<% end %>	
+
+ >> <%=link_to t('voting.previous_elections'), vote_dashboard_path(anchor: 'prev_elections') %>
+
+<h4 class="dash_section"><%= t('voting.open_proposals') %></h4>
+<% if not @referenda_active.empty? %>
+  <div class="row" id="referenda_list_active">
+    <% @referenda_active.each do |referendum| %>
+      <%= render partial: 'referendum_shortlink', :locals => {referendum: referendum} %>
+    <% end %> 
+  </div>
+<% else %>
+  <p><%= t('voting.no_proposals') %></p>
+<% end %>
+
+ >> <%= link_to t('voting.previous_proposals'), vote_dashboard_path(anchor: 'prev_proposals') %>
+
+<div id="vc_invite">
+	<h4 class="dash_section"><%= t('vc.local_name') %></h4>
+	<% if current_user.is_vc_member? %>
+	  <p><%= t('vc.you_member', date: l(current_user.vc_member_since.to_date + 6.months, :format => :long)) %>
+		<% if current_user.is_vc_candidate? %>
+		  <%= t('vc.you_still_candidate') %></p>
+		  <p><%= link_to(t('vc.no_longer_candidate_button'), stop_vc_application_path, method: :post, class: "btn btn-danger") %></p>
+		<% else %>
+		  <%= t('vc.you_no_longer_candidate') %></p>
+			<p><%= link_to t('buttons.apply_here'), apply_to_vc_path, :class => 'btn btn-danger' %></p>
+		<% end %>
+	<% elsif current_user.is_vc_candidate? %>	
+	  <p><%= t('vc.you_candidate') %> <%= t('vc.next_date', date: l(ValidatingCouncil.next_date, :format => :long)) %></p>
+		<p><%= link_to(t('vc.no_longer_candidate_button'), stop_vc_application_path, method: :post, class: "btn btn-danger") %></p>
+	<% else %>
+    <p><%= t('vc.apply_invitation') %> <%= t('vc.next_date', date: l(ValidatingCouncil.next_date, :format => :long)) %></p>
+    <% if current_user.is_verified? %>
+      <p><%= link_to t('buttons.apply_here'), apply_to_vc_path, :class => 'btn btn-danger' %></p>
+    <% else %>
+      <p style="color: red"><%= string_with_link(t('verify.need'), new_verification_path) %></p>
+    <% end %>
+	<% end %>
+</div>
+
+	</div>
+	<div class="col-sm-12 col-md-6">
+	
+	<h4 class="dash_section">Support DiEM25 projects you like!</h4>
+	<ul>
+	  <% @latest_fundraisers.each do |earmark| %>
+		  <li><%= fundraiser_link(earmark, "once") %></li>
+		<% end %>
+	  <li><%= fundraiser_link("france", "monthly") %></li>
+	  <li><%= fundraiser_link("italia", "monthly") %></li>
+		<li><%= fundraiser_link("portugal", "monthly") %></li>
+		<li><%= fundraiser_link("spain", "monthly") %></li>
+	</ul>
+	>> <%= link_to t("donations.title_int"), new_donation_path %>
+	
+	<h4 class="dash_section">Latest forum topics</h4>
+	<ul>
+	  <% @latest_topics.each do |topic| %>
+		  <li><%= quick_discourse_topic(topic) %></li>
+		<% end %>
+	</ul>
+	>> <%= link_to "Forum", "https://discuss.diem25.org" %>
+	
+	<h4 class="dash_section"><%= t("dscs.new_title") %></h4>
+	<ul>
+	  <% @latest_dscs.each do |dsc| %>
+		  <li><%= (dsc.public_email.blank?) ? (dsc.full_name) : (link_to(dsc.full_name, ("mailto:" + dsc.public_email))) %></li>
+		<% end %>
+	</ul>
+	>> <%= link_to t("dscs.find_nearby"), public_dscs_path %>
+
+	</div>
+</div>

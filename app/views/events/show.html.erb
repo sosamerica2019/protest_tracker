@@ -1,0 +1,90 @@
+<h2><%= @event.title %></h2>
+<h5 style="color: red;"><%= t("events.type." + @event.event_type) %></h5>
+<div class="calendar" style="padding: 20px; padding-top: 10px;">
+  <dl>
+	  <dt class="col-xs-2">When</dt><dd class="col-xs-10"><%= duration(@event.event_start, @event.event_end) %></dd>
+		<dt class="col-xs-2">Where</dt><dd class="col-xs-10"><%= @event.location_name %><% unless @event.online? %> @ <%= @event.location_city %>, <%= @event.location_country_name %><% end %></dd>
+		<dt class="col-xs-2">Organizer</dt><dd class="col-xs-10"><%= @event.organizer_name %> <%= link_to "Contact", @event.rsvp %></dd>
+		<dt class="col-xs-2">Audience</dt><dd class="col-xs-10"><%= @event.audience_type %><% if @event.location_size %>, up to <%= @event.location_size %> participants<% end %></dd>
+	</dl>
+	<%= image_tag(@event.picture_url, style: "max-width: 800px; max-height: 400px;") if @event.picture_url %>
+	
+	<h4 class="cal_title">The Event</h4>
+	<%= @event.description.gsub(/(font-size|color): [\w\d#]+;/, "").html_safe %>
+	
+	<h4 class="cal_title">The Location</h4>
+	<p><%= @event.location_name %><% unless @event.online? %> (<%= @event.location_city %>)<% end %></p>
+	<% if @event.location_geo and not @event.online? %>
+	  <div id="map" style="width: 400px;height: 400px;"></div>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQ9opO1VpKTYXLCLuf9978YCAroQ009As" type="text/javascript"></script>
+    <script>
+      var map;
+
+      function initialize() {
+	      var loc_geo = new google.maps.LatLng(<%= @event.location_geo.values.join(",") %>);
+        var mapOptions = {
+          zoom: 16,
+          center: loc_geo
+        }
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      	marker = new google.maps.Marker({
+          position: map.getCenter(),
+          map: map
+        });
+      }
+			
+			google.maps.event.addDomListener(window, 'load', initialize);
+		</script>
+	<% end %>
+	<p><%= @event.location_address.gsub("\n", "<br>").html_safe %></p>
+	
+	
+	<div class="calendar-footer"><h4 class="cal_title">Next steps:</h4>
+  <div class="buttons">
+      <%= link_to "Say you're coming", @event.rsvp, class: "btn btn-danger" unless @event.rsvp_address.blank? %>
+			<%= link_to "Read more", @event.details_url, class: "btn btn-info" unless @event.details_url.blank? %>
+			<%= link_to "Buy tickets", @event.tickets_url, class: "btn btn-warning" unless @event.tickets_url.blank? %>
+			<div title="Add to Calendar" class="addeventatc">
+        Add to Calendar
+        <span class="start"<%= @event.event_start %></span>
+    <span class="end"><%= @event.event_end %></span>
+    <span class="title"><%= @event.title %></span>
+    <span class="description"><%= @event.description.gsub(/(font-size|color): [\w\d#]+;/, "").html_safe %></span>
+    <span class="location"><%= @event.location_name %><% unless @event.online? %>, <%= @event.location_city %><% end %></span>
+    </div>
+  </div></div>
+	
+	<% unless current_user %><p><i>Do you want to be informed of DiEM25's actions? <a href="https://internal.diem25.org/newsletter/">Sign up here</a>.</i></p><% end %>
+	
+</div>
+
+<style>
+.calendar dt {
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  text-align: right;
+}
+h4.cal_title {
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+	margin-top: 30px;
+}
+.calendar-footer {
+  padding: 20px;
+  padding-top: 10px;
+  margin-left: -20px;
+  background-color: #f5f5f5;
+	margin-top: 30px;
+}
+.calendar-footer h4.cal_title {
+  margin-top: 10px;
+}
+</style>
+
+
+<% if current_user %>
+  <%= link_to 'Edit', edit_event_path(@event) if @event.own_or_admin?(current_user) %> |
+  <%= link_to 'Back', :back %>
+<% end %>

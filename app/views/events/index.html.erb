@@ -1,0 +1,67 @@
+<h2>DiEM25 Calendar</h2><br>
+
+
+<% new_from = (@from - 60.days).to_date %>
+<% new_to = (new_from + 60.days).to_date %>
+<%= link_to('Add DSC Event', new_event_path, {class: "btn btn-info btn-lg", style: "float: right"} ) if current_user %>
+<%= link_to "Previous events", {from: new_from, to: new_to}, {class: "btn btn-danger btn-lg", style: "margin-bottom: 20px"} %>
+
+<% if @events.empty? %>
+  <ul class="list-group">
+	<li class="list-group-item disabled"><%= l @from.to_date %></li>
+	<li class="list-group-item">No events in this timeframe</li>
+	<li class="list-group-item disabled"><%= l @to.to_date %></li>
+	</ul>
+<% end %>
+
+<% this_day = nil %>
+<% @events.each do |e| %>
+  <% if e.event_start.to_date != this_day %>
+	  <%= raw("</ul>") unless this_day == nil %>
+		<% this_day = e.event_start.to_date %>
+		<ul class="list-group<%= " highlighted" if e.is_important? %>">
+	  <li class="list-group-item disabled"><%= l this_day %></li>
+	<% end %>
+	
+	<li class="list-group-item"><p class="list-group-item-text"><span class="cal_time"><%= e.time %></span>
+	  <%= link_to e.title, "javascript:show_event(#{e.id})" %> <span class="badge"><%= e.location_mini %></span></p>
+	</li>
+<% end %>
+</ul>
+
+<% new_from = (@from + 60.days).to_date %>
+<% new_to = (new_from + 60.days).to_date %>
+<%= link_to "Later events", {from: new_from, to: new_to}, {class: "btn btn-danger btn-lg", style: "margin-bottom: 20px"} %>
+
+<p><%= link_to 'Add DSC Event', new_event_path if current_user %></p>
+
+<div id='event-content'></div>
+
+<script>
+function show_event(id) {
+  jQuery.get("/events/" + id + ".js?locale=<%= I18n.locale %>&embed=<%= @embed %>");
+  false;
+}
+</script>
+
+
+<style>
+.calendar-heading {
+  font-size: 22px;
+}
+.cal_event {
+  margin-bottom: 7px;
+}
+.cal_time {
+  margin-right: 15px;
+}
+.badge {
+  margin-left: 15px;
+}
+.list-group-item.disabled {
+  cursor: default!important;
+}
+.list-group.highlighted li {
+  border-color: black;
+}
+</style>

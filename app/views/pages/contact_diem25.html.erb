@@ -1,0 +1,132 @@
+<h2><%= t("contact_all.title") %></h2>
+<h2><%= t("contact_all.title") %></h2>
+
+<%= form_tag contact_diem25_path, html: {class: "form-horizontal"} %>
+
+<p style="margin-top: 20px"><%= t("contact_all.desc") %></p>
+
+<div class="form-group">
+  <%= label_tag :who, t("contact_all.who"), class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 mbottom">
+	  <%= radio_button_tag 'addressee', 'local' %> <%= t("contact_all.to_local") %><br>
+		<%= radio_button_tag 'addressee', 'dsc' %> <%= t("contact_all.to_dsc") %><br>
+		<%= radio_button_tag 'addressee', 'nc' %> <%= t("contact_all.to_nc") %><br>
+    <%= radio_button_tag 'addressee', 'cc' %> <%= t("contact_all.to_cc") %><br>
+    <%= radio_button_tag 'addressee', 'workgroup' %> <%= t("contact_all.to_workgroup") %><br>
+    <%= radio_button_tag 'addressee', 'tech' %> <%= t("contact_all.to_techsupport") %><br>
+    <%= radio_button_tag 'addressee', 'comms' %> <%= t("contact_all.to_comms") %><br>
+		<%= radio_button_tag 'addressee', 'volunteer' %> <%= t("contact_all.to_volunteer") %><br>
+    <%= radio_button_tag 'addressee', 'any', true %> <%= t("contact_all.to_any") %><br>
+	</div>
+</div>
+
+
+
+<div class="form-group extra" id="extra_workgroup" style="display: none">
+  <%= label_tag :workgroup, t("contact_all.which_policy"), class: "col-xs-3 control-label" %>
+	<div class="col-xs-9">
+	  <% options = ["European Spring policies", "European New Deal", "Transparency", "Refugees & Migration", "Constitution", "Tech", "Labour", "Green Transition", "national policies", "other"] %>
+		<%= select_tag :workgroup, options_for_select(t_for_select(options, 'workgroups'), "other"), { :class => 'form-control mbottom' } %>
+	</div>
+</div>
+
+<div class="form-group extra" id="extra_dsc" style="display: none">
+  <%= label_tag :dsc, t("contact_all.which_dsc"), class: "col-xs-3 control-label" %>
+	<div class="col-xs-9">
+	  <%= select_tag :dsc, options_for_select(Dsc.shown_public.except_national.order("name ASC").all.collect {|d| [ d.full_name, d.id ] }), { class: 'form-control'} %>
+		<p><i><%= t("contact_all.no_dsc_yet") %></i></p>
+	</div>
+</div>
+
+<div class="form-group extra" id="extra_nc" style="display: none">
+  <%= label_tag :nc, t("contact_all.which_nc"), class: "col-xs-3 control-label" %>
+	<div class="col-xs-9">
+	  <%= select_tag :nc, options_for_select([["Belgium", 'be'], ["Česko", "cz"], ["Deutschland", 'de'], ["Ελλάδα", 'gr'], ["France", 'fr'], ["Italia", 'it'], ["Nederland", "nl"], ["United Kingdom", 'gb']]), { class: 'form-control'} %>
+	  <i><%= t("contact_all.only_some_ncs") %></i>
+		<p><%= t("contact.be_brief") %></p>
+	</div>
+</div>
+
+<div class="form-group extra col-xs-12" id="extra_local" style="display: none">
+  <%= check_box_tag :understand, false %> <%= label_tag :understand, t("contact_all.understand") %> 
+	<p><%= string_with_link(t("contact_all.understand_more1"), "https://discuss.diem25.org") %> <%= string_with_link(t("contact_all.understand_more2"), public_dscs_path) %></p>
+</div>
+
+<div class="form-group extra col-xs-12" id="extra_cc" style="display: none">
+  <p><%= t("contact.be_brief") %></p>
+</div>
+
+<div class="form-group">
+  <%= label_tag :subject, t("email.subject"), class: "col-xs-3 control-label" %>
+	<div class="col-xs-9">
+    <%= text_field_tag :subject, "", style: "width: 100%" %>
+	</div>
+</div>
+
+<div class="form-group">
+  <%= label_tag :body, t("email.message"), class: "col-xs-3 control-label" %>
+	<div class="col-xs-9">
+    <%= text_area_tag :body, "", style: "width: 100%", rows: 10  %>
+	</div>
+</div>
+
+<div class="form-group">
+<div class="col-xs-offset-3">
+    <p class="help-block" style="margin-left: 15px">
+      
+			<br />
+    </p>
+  </div>
+  <div class="col-xs-offset-3 col-xs-9">
+    <%= submit_tag t('buttons.send'), class: "btn btn-primary" %>
+  </div>	
+	
+</div>
+
+</form>
+
+<script>
+$(document).ready(function() {
+	$(".btn-primary").click( function(event) {
+    if (!$("#subject").val()) {
+		  event.preventDefault(); 
+	    alert('<%= t('contact_all.no_subject') %>');
+	  } else if (!$("#body").val()) {
+		  event.preventDefault(); 
+	    alert('<%= t('contact_all.no_content') %>');
+		} else if (($("#extra_local").is(":visible")) && (!$("#understand")[0].checked)) {
+		  event.preventDefault();
+		  $("#extra_local").css('color', 'red');
+		  alert('<%= t('contact_all.no_understand') %>');
+	  } else {
+	    return true;
+	  }
+  });
+	$("input[type='radio']").click(function() {
+	  chosen = $(this).val();
+		$("div.extra").hide();
+		if (chosen == 'workgroup') {
+		  $("#extra_workgroup").show();
+		} else if ((chosen == 'local') && ("<%= current_user.city %>".length == 0)) {
+		  alert('<%= t('contact_all.no_city') %>'); 
+		  $("#addressee_any").click();
+		} else if (chosen == 'local') {
+		  $("#extra_local").show();
+		} else if (chosen == 'dsc') {
+		  $("#extra_dsc").show();
+		} else if (chosen == 'nc') {
+		  $("#extra_nc").show();
+		} else if (chosen == 'cc') {
+		  $("#extra_cc").show();
+		}
+	});
+});
+
+
+</script>
+
+<style>
+  .mbottom {
+	  margin-bottom: 20px;
+	}
+</style>

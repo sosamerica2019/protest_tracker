@@ -1,0 +1,28 @@
+
+== DiEM25 Internal Member Area 
+
+This what powers https://internal.diem25.org .
+
+Develop in git, push to Heroku, very simple.
+
+=== To start coding
+
+Ensure you have:
+
+* Ruby 2.3.3
+* Rails 5.1
+
+Then:
+
+* Define DB user in ENV, as described in database.yml
+* Change application.yml.sample to application.yml (provide real values)
+* Ensure application.yml NEVER gets committed!
+* bundle install
+* rake db:migrate
+* create initial user
+* That's probably it!
+
+=== To test
+
+* rspec
+* cucumber

@@ -1,0 +1,97 @@
+body{font-family:Ubuntu;font-weight:400;font-style:normal;color:#333;font-size:16px;}
+
+h1{font-family:Ubuntu;font-weight:700;font-style:normal;color:#000;font-size:42px;}
+h2{font-family:Ubuntu;font-weight:700;font-style:normal;color:#000;font-size:36px;}
+h3{font-family:Ubuntu;font-weight:700;font-style:normal;color:#000;font-size:24px;}
+h4{font-family:Ubuntu;font-weight:700;font-style:normal;color:#000;font-size:20px;}
+h5{font-family:Ubuntu;font-weight:700;font-style:normal;color:#000;font-size:18px;}
+
+
+
+
+.header {
+	background: #ffffff;
+}
+.header2 .newedge-topbar .container {
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.navbar-header {
+    margin-top: 15px;
+}
+
+.header2 .logo-wrapper {
+    margin-top: 12px;
+}
+
+.header2 .ads-logo.img-responsive {
+    float: right;
+}
+
+.header2 .site-header {
+    border-bottom: 1px solid #ffffff;
+}
+
+.site-header {
+    padding-bottom: 0px;
+	    min-height: 52px;
+}
+
+#header-container {
+    z-index: 99;
+}
+
+#navigation {
+    position: relative;
+}
+
+#main-menu {
+    position: inherit;
+}
+
+#main-menu .nav>li>a, #main-menu ul.sub-menu li > a {
+    font-family: Ubuntu;
+    font-weight: 700;
+    font-style: normal;
+    color: #000;
+    font-size: 14px;
+}
+
+.bottom-wrap {
+    background-repeat: repeat-y;
+    background-size: cover;
+   
+}
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 15px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+}
+#error_explanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 14px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff;
+}
+#error_explanation  ul li {
+    font-size: 14px;
+    list-style: square;
+}
+
+btn-grey {
+  color: #333;
+  background-color: #dddddd;
+  border-color: #adadad;
+}
+
+#verify-pin, #status-box, #go_on_now {
+  display: none;
+}

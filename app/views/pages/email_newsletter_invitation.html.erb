@@ -1,0 +1,39 @@
+<h2><%= t("newsletter.invite_friend") %></h2>
+<div class="contact-form member-form">			
+	<div class="textwidget">
+		<%= form_tag send_email_newsletter_invitation_path, remote: true, class: "form-horizontal" do %>
+		  <div class="form-group">
+        <%= label_tag :addressees, t("newsletter.friends_email"), class: "col-xs-3 control-label" %>
+	      <div class="col-xs-9">
+          <%= text_field_tag :addressees, "", style: "width: 100%" %>
+	      </div>
+      </div>
+			<div class="form-group">
+        <%= label_tag :subject, t("email.subject"), class: "col-xs-3 control-label" %>
+	      <div class="col-xs-9">
+          <%= text_field_tag :subject, "", style: "width: 100%" %>
+	      </div>
+      </div>
+      <div class="form-group">
+        <%= label_tag :body, t("email.message"), class: "col-xs-3 control-label" %>
+	      <div class="col-xs-9">
+          <%= text_area_tag :body, @preset_message, style: "width: 100%", rows: 10  %>
+	      </div>
+      </div>
+      <div class="col-xs-offset-3 col-xs-9">
+        <%= submit_tag t('buttons.send'), class: "btn btn-primary" %>
+      </div>	
+    <% end %>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {	
+	$(".contact-form form").on("ajax:success", function(event) {
+	  alert(event);
+		/* xhr.responseText */
+	});
+	
+});
+</script>
+

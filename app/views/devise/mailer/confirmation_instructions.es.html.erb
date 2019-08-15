@@ -1,0 +1,38 @@
+<h2>¡Bienvenido a DiEM25, <%= @resource.name %>!</h2>
+
+<p><strong>¡Gracias por ser uno de nuestros primeros simpatizantes!</strong>
+Por favor, clica sobre el enlace de abajo para confirmar que fuiste realmente tú quien rellenó nuestro formulario de inscripción.
+</p>
+
+<p><%= link_to t('verify.email_confirm_button'), confirmation_url(@resource, confirmation_token: @token), style: "font-weight: 500; font-size: 20px; line-height: 42px;" %><br>
+<a href="<%= confirmation_url(@resource, confirmation_token: @token) %>"><%= confirmation_url(@resource, confirmation_token: @token) %></a></p>
+
+<p>¡Lo ideal ahora sería juntarnos todos para dar la bienvenida a todos a DiEM25!</p>
+
+<p>Por desgracia, Europa es demasiado grande para esto.</p>
+
+<p>Europa puede ser muy grande, pero no es lo suficientemente potente como para resistir las fuerzas destructivas que están destrozando la UE.</p>
+
+<p>¿El motivo? Con su incompetencia y el autoritarismo, la clase dirigente de EU ha vuelto a los europeos contra sí.</p>
+
+<p>Pese a lo que podamos pensar de la EU, su desintegración amenaza hoy a los pueblos de Europa con una versión (post)modernista de 1930.</p>
+
+<p>Para resistir estas fuerzas que amenazan a los ciudadanos más débiles de Europa, su cultura de tolerancia y su humanismo básico, la Unión Europea debe ser democratizada.</p>
+
+<p>¡Nada más lo hará!</p>
+
+<p>Formamos DiEM25 para crear un movimiento para revertir la desintegración de Europa. Contigo, y cada uno de nosotros, como su agente principal. 
+Juntos tenemos en una oportunidad. Divididos seguramente caeremos.</p>
+
+<p>Tenemos mucho trabajo por hacer. El primer paso se completó cuando se uniste a DiEM. Recibirás información actualizada cada vez que DiEM25 está 
+planeando otro paso y serás capaz de contribuir al éxito de DiEM. Te recomendamos que primero eches un vistazo al 
+<a href="http://www.diem25.org/forum/" target="_blank">Foro</a> (hay que darse de alta otra vez porque es un registro diferente al de 
+<a href="http://www.diem25.org/" target="_blank">www.diem25.org</a>)</p>
+
+<p>¡Carpe DiEM25!</p>
+
+<p>P.D.1. Por favor, anima a tus amigxs y a potenciales miembros a apuntarse en <a href="http://diem25.org/home-es/" target="_blank">www.diem25.org</a></p>
+
+<p>P.D.2. Si quieres apuntarte como voluntarix, por favor, revisa esta <a href="https://diem25.org/guia-para-voluntarios-de-diem25/" target="_blank">guía de voluntariado</a>. 
+Si no encuentras aquí la información que buscas, manda un email a  <strong><a href="mailto:info@diem25.org" target="_blank">info@diem25.org</a> </strong>para más 
+información o a <strong><a href="mailto:volunteer@diem25.org" target="_blank">volunteer@diem25.org</a></strong> para temas relacionados con lxs voluntarixs.</p>

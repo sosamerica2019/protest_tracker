@@ -1,0 +1,47 @@
+<h2><%= t("refer.title") %></h2>
+
+<h2><%= t("refer.title") %></h2>
+
+<p><b>Help DiEM25 grow!</b> This is your personal link to invite friends to become members of DiEM25: <%= url(new_user_registration_url(refer: ("u" + current_user.id.to_s))) %></p>
+<p>And if you want to recommend the DiEM25 newsletter, send people to: <%= url(new_newsletter_subscription_url(refer: ("u" + current_user.id.to_s))) %></p>
+<p>If someone signs up based on your recommendation, you will be able to see them in the list below.</p>
+
+<% if current_user.has_privilege?("see_all_referrals") %>
+  <br><h5>All-time totals for non-personal referrals</h5> 
+	
+  <ul>
+  <% @tag_totals.each do |tag| %>
+  <li><%= tag[0].starts_with?("petition") ? ('petition "' + Petition.find(tag[0][8..-1].to_i).title + '"') : tag[0] %>: <%= tag[1] %></li>
+  <% end %>
+  </ul> <br>
+
+  <h5>Most recent referrals</h5>
+<% end %>
+ 
+ 
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+			<th>Country</th>
+      <th>Membership</th>
+      <th>Refer code</th>
+      <th>Signed up</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @referred_users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+				<td><%= user.country_name %></td>
+        <td><%= user.newsletter == 'Non-member' ? 'Newsletter subscriber' : 'Full member' %></td>
+        <td><%= user.refer %></td>
+        <td><%= user.created_at %></td>
+      </tr>
+    <% end %>
+		<% if @referred_users.empty? %>
+		  <tr><td colspan=4><i>It seems you haven't recruited anyone yet, or they didn't use the link with your personal code in it.</i></td></tr>
+		<% end %>
+  </tbody>
+</table>

@@ -1,0 +1,35 @@
+Welcome to DiEM25, <%= @resource.name %>!
+=========================================
+
+Thank you for being among our early supporters! Please click the link below in order to confirm that it was really you who filled out our membership form.
+
+<%= confirmation_url(@resource, confirmation_token: @token) %>
+
+Now ideally, we should all get together to welcome each other to DiEM25!
+
+Alas, Europe is too large to allow this!
+
+Europe may be very large but it is not powerful enough to withstand the destructive forces that are tearing the EU apart.
+
+The reason? With their incompetence and authoritarianism, the EU establishment have turned Europeans against it.
+
+Whatever we may think of the EU, its disintegration today threatens the peoples of Europe with a (post)modern version of the 1930s.
+
+To resist these forces threatening Europe’s weakest citizens, its culture of tolerance, and its basic humanism, the European Union must be democratised.
+
+Nothing else will do!
+
+We formed DiEM25 to create a movement to reverse Europe’s disintegration. With you, and each one of us, as its principal agent. Together we stand a chance. Divided we shall surely fall.
+
+We have much work to do. The first step was completed when you joined DiEM. You will now get regular updates 
+whenever DiEM25 is planning another step and you will be able to contribute to DiEM's success. We also recommend 
+you check out the Forum at http://www.diem25.org/forum (note this requires a separate sign-up).
+
+Carpe DiEM25!
+
+
+PS1. Please encourage friends and potential members to enrol on www.diem25.org .
+
+PS2. If you want to volunteer, please check out the volunteer guidelines at http://diem25.org/volunteer-guidelines . 
+If you cannot find the information you're looking for on the site, you can write to DiEM25 at info@diem25.org  
+for information or volunteer@diem25.org for volunteer-related questions.

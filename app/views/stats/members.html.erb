@@ -1,0 +1,33 @@
+<h2>Statistics on all members</h2>
+
+<h2>Members by paying status</h2>
+
+<%= pie_chart members_by_type_stats_path %>
+
+<h2>Members by Country</h2>
+
+<%= pie_chart members_by_country_stats_path %>
+
+<div id="extra_charts" class="row" style="clear: both">
+  <%= form_tag members_stats_path, method: "get" do %>
+    <p><strong>Show stats on:</strong>
+		
+    <div class="input-group">
+		  <%= select_tag :attribute, options_for_select(['language', 'gender', 'verification_state', 'volunteer'], @attribute.to_s), :class => "form-control", :style => "height: 50px" %>
+    </div>
+
+    <%= submit_tag 'Show!', class: 'btn btn-primary' %>
+
+		</strong></p>
+  <% end %>
+</div>
+
+<h2>Members by <%= @attribute.to_s.capitalize %></h2>
+
+<%= pie_chart members_by_other_stats_path(attribute: @attribute) %>
+
+<h2>Activation levels in different language groups</h2>
+
+<%= table_from @activation_stats %>
+
+<p>Members participating in the last vote: <%= @last_vote.join(", ") %></p>

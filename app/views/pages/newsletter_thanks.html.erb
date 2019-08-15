@@ -1,0 +1,21 @@
+<div class="content">
+  <h4><%= diem_ascii_symbol %><%= t("newsletter.thanks1") %></h4>
+	<% if flash[:notice] %>
+	  <p style="color: darkgreen"><%= flash[:notice] %></p>
+	<% end %>
+	<p><%= t("features.internal_democracy_desc") %></p>
+  <h4><%= link_to t("features.become_member_call"), new_user_registration_path %></h4><br />
+    
+	<h4><%= diem_ascii_symbol %><%= t("features.volunteer_ask") %></h4>
+	<p><%= string_with_link(t("features.volunteer_call"), "https://diem25.org/faq/how-can-i-volunteer-for-diem25/") %></p>
+  <h4><%= link_to t("features.local_call"), public_dscs_path %></h4><br />
+	
+	<h4><%= diem_ascii_symbol %><%= t("features.fund_ask") %></h4>
+	<p><%= t("features.fund_desc_small") %></p>
+  <h4><%= link_to t("features.donation_call"), new_donation_path %></h4><br />
+  
+</div>
+
+<style>
+.content h4 a { text-decoration: underline; }
+</style>

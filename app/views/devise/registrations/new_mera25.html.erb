@@ -1,0 +1,325 @@
+
+<%= form_for(resource, as: resource_name, url: user_registration_path(org: "mera25"), method: :post, html: {class: "form-horizontal"}) do |f| %>
+
+<h2><%= t('register.headline') %></h2>
+
+<% unless @just_registered %>
+<p class="comment"><%= t('register.mera_desc1') %></p>
+
+<p class="comment"><%= t('register.mera_desc2b') %></p>
+
+<p class="comment"><%= t('register.desc3') %>
+<ul>
+  <li><%= t('register.mera_benefit1') %></li>
+  <li><%= t('register.mera_benefit2') %></li>
+  <li><%= t('register.mera_benefit3') %></li>
+  <li><%= t('register.mera_benefit4') %></li>
+</ul>
+<%= string_with_link(t('register.mera_fee'), new_newsletter_subscription_path('org' => 'mera25', 'refer' => @refer)) %></p>
+
+<p class="comment"><%= t('register.desc4') %></p>
+<% end %>
+
+<% resource.language = LANGUAGE_NAME[@lang] %>
+<% resource.country = @country %>
+
+
+  <%= devise_error_messages! %>
+  
+<div class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading collapser active" data-target="#basics">
+  <h4><%= t("register.heading_basics") %></h4>
+</div>
+  
+<div id="basics" class="collapse in" style="display: block;">
+<div class="panel-body">   
+  
+  <div class="form-group">
+    <%= f.label :personal_name, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_field :personal_name, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :family_name, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_field :family_name, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :full_legal_name, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_field :full_legal_name, class: "form-control" %>
+	</div>
+  </div>
+	
+	<script>
+	  $( document ).ready(function() {
+		  $("#user_family_name, #user_personal_name").change(function() {
+	      $("#user_full_legal_name").val($("#user_personal_name").val() + " " + $("#user_family_name").val());
+	    });
+		});
+	</script>
+  
+  <div class="form-group">
+    <%= f.label :email, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.email_field :email, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :password, class: ("col-xs-3 control-label" + " red" if @just_registered) %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :password_confirmation, class: ("col-xs-3 control-label" + " red" if @just_registered) %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :language, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.select :language, NEWSLETTER_LANGUAGES, {}, { :class => 'form-control' } %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :country, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+
+    <%= f.country_select :country, { include_blank: true, selected: "GR" }, { class: 'form-control' } %>     
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :city, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_field :city, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :postal_code, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_field :postal_code, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :voting_district, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_field :voting_district, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :birthdate, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.date_field :birthdate, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :mobile, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_field :mobile, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <div class="col-xs-offset-3 col-xs-9 col-md-9">
+      <%= f.check_box :terms_of_service %> <span><%= string_with_link(t('register.tos').gsub("DiEM25", "ΜέΡΑ25"), "https://www.iubenda.com/privacy-policy/" + PRIVACY_POLICY_CODE[I18n.locale]) %></span>
+    </div>
+  </div>
+	
+	<%= f.hidden_field :refer, value: @refer %>
+
+</div>
+</div>
+</div>  
+
+<div class="panel panel-default">
+<div class="panel-heading collapser" data-target="#optional">
+  <h4><%= t("register.heading_optional") %></h4>
+</div>
+  
+<div id="optional" class="collapse">
+<div class="panel-body">  
+  <p class="comment"><%= t('register.optional_explanation_html') %></p>
+  
+  <div class="form-group">
+    <%= f.label :gender, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.select "gender", options_for_select([ [t('register.gender_prefer_not'), "prefer not to say"], [ t('register.gender_female'), "female"], [t('register.gender_male'), "male"], [t('register.gender_other'), "other"] ], "prefer not to say"), {}, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :address, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_area :address, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :profession, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_field :profession, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :twitter, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_field :twitter, class: "form-control", placeholder: "@DiEM_25" %>
+	</div>
+  </div>
+
+</div>
+</div>
+</div> 
+
+<div class="panel panel-default">
+<div class="panel-heading collapser" data-target="#groups">
+  <h4><%= t("register.heading_groups") %></h4>
+</div>
+  
+<div id="groups" class="collapse">
+<div class="panel-body">  
+  
+  <div class="form-group" style="clear: both">
+    <div class="col-xs-offset-2 col-xs-10">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :willing_local %> <b><%= t('register.yes_local') %></b>
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :which_local, class: "col-xs-3 control-label" %>
+	  <div class="col-xs-9 col-md-4">
+      <%= f.text_field :which_local, {class: "form-control", disabled: true} %>
+	  </div>
+  </div>
+	
+	<div class="form-group" style="clear: both">
+    <div class="col-xs-offset-2 col-xs-10">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :willing_thematic %> <b><%= t('register.yes_thematic') %></b>
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :which_thematic, class: "col-xs-3 control-label" %>
+	  <div class="col-xs-9 col-md-4">
+      <% options = ["European New Deal", "Transparency", "Refugees & Migration", "Constitution", "Tech", "Labour", "Green Transition", "national policies", "other"] %>
+		  <%= f.select :which_thematic, options_for_select(t_for_select(options, 'workgroups')), { include_blank: true }, { :class => 'form-control mbottom', disabled: true} %>
+	  </div>
+  </div>
+	
+	<script>
+	  $( document ).ready(function() {
+		  $('#user_willing_local').change(function() {
+			  $('#user_which_local').prop('disabled', false);
+			});
+			$('#user_willing_thematic').change(function() {
+			  $('#user_which_thematic').prop('disabled', false);
+			});
+		});
+	</script>
+	
+	<p class="comment"><%= string_with_link(t('register.volunteer_local_html'), public_dscs_path)  %></p> 
+
+</div>
+</div>
+</div>  
+
+
+ 
+
+<div class="panel panel-default">
+<div class="panel-heading collapser" data-target="#volunteer">
+  <h4><%= t("register.heading_volunteer") %></h4>
+</div>
+  
+<div id="volunteer" class="collapse">
+<div class="panel-body">    
+  
+  <p class="comment"><%= t('register.volunteer_explanation') %></p>
+  
+  <div class="form-group" style="clear: both">
+    <div class="col-xs-offset-2 col-xs-10">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :volunteer %> <b><%= t('register.yes_volunteer') %></b>
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :volunteer_hours_per_week, t('register.volunteer_hours'), class: "col-xs-3 control-label" %>
+	  <div class="col-xs-9 col-md-4">
+      <%= f.text_field :volunteer_hours_per_week, class: "form-control" %>
+	  </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-xs-3">
+      <b><%= t('register.volunteer_prompt') %></b>
+    </div>
+    <div class="col-xs-10">
+      <% VOLUNTEER_ABILITIES.each do |ability| %>
+        <div class="checkbox">
+          <label>
+            <%= check_box_tag ('volunteer_' + ability).to_sym %> <%= t('register.volunteer_' + ability) %>
+          </label>
+        </div>
+			<% end %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :volunteer_abilities_desc, class: "col-xs-3 control-label" %>
+	<div class="col-xs-9 col-md-4">
+      <%= f.text_area :volunteer_abilities_desc, class: "form-control" %>
+	</div>
+  </div>
+  
+</div>
+</div>
+</div>
+</div>
+  
+  <div class="form-group">
+    <div class="col-xs-offset-3 col-xs-9">
+		  <%= f.hidden_field :mera25, value: 'member' %>
+			<%= invisible_recaptcha_tags text: t('register.button2'), site_key: ENV['recaptcha_site_key'], class: "btn btn-lg btn-primary" %>
+    </div>
+  </div>
+	<div class="col-xs-offset-3">
+    <p class="help-block" style="font-weight: normal">
+		  Το ΜέΡΑ25 είναι ο εκλογικός βραχίονας του DiEM25 στην Ελλάδα και γι' αυτό το λόγο όποιος γίνεται μέλος του ΜέΡΑ25 γίνεται αυτόματα μέλος του DiEM25.<br>
+      <%= string_with_link(t('register.safe_data'), "https://www.iubenda.com/privacy-policy/" + PRIVACY_POLICY_CODE[I18n.locale])  %>
+    </p>
+  </div>
+  
+ 
+<% end %>
+
+<br>
+<%= render "devise/shared/links" %>

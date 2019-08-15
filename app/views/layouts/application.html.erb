@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= t('general.internal_headline') %></title>
+   <meta name="description" content="<%= @description || "Democracy in Europe Movement 2025" %>" />
+  <meta property="og:title" content="<%= @title || "DiEM25" %>" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="<%= request.original_url %>" />
+  <meta property="og:site_name" content="DiEM25 - Democracy in Europe Movement 2025" />
+  <meta property="og:description" content="<%= @description || "Democracy in Europe Movement 2025" %>" />
+  <meta property="og:image" content="<%= @fb_image || @image || "https://diem25.org/wp-content/uploads/2016/11/DiEM25_preview.png" %>" />
+  <meta property="fb:admins" content="774837349" />
+  
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@DiEM_25">
+  <meta name="twitter:title" content="<%= @title || "DiEM25" %>">
+  <meta name="twitter:description" content="<%= @description || "Democracy in Europe Movement 2025" %>">
+  <meta name="twitter:creator" content="@DiEM_25">
+  <meta name="twitter:image" content="<%= @tw_image || @image || "https://diem25.org/wp-content/uploads/2016/11/DiEM25_preview.png" %>">
+  
+  
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+  <%= stylesheet_link_tag    'application', media: 'all'  %>
+  <%= javascript_include_tag 'application' %>
+	<script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
+  <%= csrf_meta_tags %>
+  <link rel="shortcut icon" href="https://diem25.org/wp-content/uploads/2016/02/favicon-png.png" type="image/x-icon">
+  <link rel="stylesheet" id="redux-google-fonts-themeum_options-css" href="https://fonts.googleapis.com/css?family=Ubuntu%3A300%2C400%2C500%2C700%2C300italic%2C400italic%2C500italic%2C700italic&amp;subset=cyrillic-ext&amp;ver=1466205916" type="text/css" media="all">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+</head>
+<body>
+
+<%= render :partial => "header" %>
+
+<header class="page-panel">
+  <div class="container">
+    <h1>DiEM25 Internal</h1>
+    <p class="panel--description">
+      <%= t('general.welcome', name: (current_user || "")) %> <%= t('general.internal_explanation1') %>
+    </p>
+  </div>
+</header>
+
+<section id="main" class="clearfix">
+  <div class="container">
+    <div id="content" class="site-content" role="main">
+      <div class="row">
+        <div class="col-md-3">
+
+          <nav class="sub-navigation--internal">
+            <h3 id="internal_menu_h3">Menu</h3>
+				    <h3 id="internal_menu_show" style="display:none;margin-left: -15px;margin-top: -15px;"><a href="#" class="btn btn-danger btn-lg">Menu</a></h3>
+						
+            <div id="internal_menu"><ul class="sub-navigation--internal--ul">
+              <% if !current_page?(root_path) %><%= maybe_active_nav_li_to t('general.link_dashboard'), root_path %><% end %>
+              <%= maybe_active_nav_li_to t('register.view_edit'), edit_user_registration_path %>
+							<%= maybe_active_nav_li_to t('events.title'), events_path %>
+							<%= maybe_active_nav_li_to "Forum", "https://discuss.diem25.org" %>
+							<%= maybe_active_nav_li_to t('contact_all.menu_link'), contact_diem25_form_path %>
+              <%= maybe_active_nav_li_to t('sessions.sign_out'), destroy_user_session_path, :method => :delete, :id => "sign_out_link" %>
+            </ul></div>
+            
+            <% if current_user and current_user.is_admin? %>
+            <div id="internal_admin_menu"><h3>Admin menu</h3>
+            <ul class="sub-navigation--internal--ul navbar-collapse collpase">
+        
+							<%= maybe_active_nav_li_to "Review events", review_events_path if current_user.has_privilege?("moderate_events") %>
+							<%= maybe_active_nav_li_to "Add news", "/admin/news" if current_user.has_privilege?("moderate_events") %>
+							<%= maybe_active_nav_li_to "Admin volunteers", admin_volunteers_path if current_user.has_privilege?("administer_volunteers_in_country") %>
+						  <%= maybe_active_nav_li_to "View/edit members", admin_users_path if current_user.has_privilege?("administer_users_in_country") %>
+							<%= maybe_active_nav_li_to "View member statistics", members_stats_path if current_user.has_privilege?("view_statistics") %>
+							<%= maybe_active_nav_li_to "View sign-up statistics", signups_stats_path if current_user.has_privilege?("view_statistics") %>
+            </ul></div>
+            <% end %>
+          </nav>
+        
+        </div>
+
+        <div class="col-md-9">
+				  <% if alert %>
+            <div class="internal-alert">
+              <p><%= sanitize(alert) %></p>
+              <a href="#" class="close--alert"></a>
+            </div>
+          <% end %>
+
+          <% if notice %>
+            <div class="success-alert">
+              <p><%= sanitize(notice) %></p>
+              <a href="#" class="close--alert"></a>
+            </div>
+          <% end %>
+				
+				  <%= yield %>
+				
+				</div>
+      
+      </div>     
+    </div> <!--/#content-->
+  </div> <!--/container-->
+</section> <!--/#main-->
+
+
+<%= render :partial => "footer" %>
+
+  <script>
+	  $( document ).ready(function() {
+		  if ((/Mobi/i.test(navigator.userAgent)) || (screen.width <= 800)) {
+			  $("#internal_menu").hide();
+			  $("#internal_admin_menu").hide();
+				$("#internal_menu_h3").hide();
+				$("#internal_menu_show").show();
+				$("#internal_menu_show a").click(function() { show_menu(); });
+			}
+		});
+		function show_menu() {
+		  $("#internal_menu").toggle();
+		  $("#internal_admin_menu").toggle();
+		}
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<style>
+a {
+  font-weight: bold;
+	color: red;
+}
+</style>
+<p><%= t('newsletter.confirm_thanks', name: @resource.personal_name) %></p>
+
+<p>-----------------------------------------------------------</p>
+
+<p><%= t('newsletter.confirm_by_link') %></p>
+
+<p><strong style="color:red"><a href="<%= confirmation_url(@resource, confirmation_token: @token) %>"><%= confirmation_url(@resource, confirmation_token: @token) %></a></strong></p>
+
+<p><%= t('newsletter.confirm_description') %></p>
+
+<p>-----------------------------------------------------------</p>
+
+<p><%= t('newsletter.confirm_dont_want') %></p> 
+
+<p><%= t('newsletter.confirm_thanks2') %></p>
+
+<p><%= t('general.carpe') %></p>
+
+<p><strong><span style="color: red">>></span><%= t('general.coordinating_collective') %></strong></p>
+
+<p><%= string_with_link(t('newsletter.confirm_ps'), "https://diem25.org") %> <%= string_with_link(t('newsletter.confirm_follow_twitter'), "https://twitter.com/DiEM_25") %> <%= string_with_link(t('newsletter.confirm_follow_facebook'), "https://www.facebook.com/diem25.official.page/") %>.</p>
+
+<p><small><i><a href="https://www.iubenda.com/privacy-policy/<%= PRIVACY_POLICY_CODE[I18n.locale] %>"><%= t('general.privacy_policy') %></a></i></small></p>

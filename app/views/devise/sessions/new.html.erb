@@ -1,0 +1,35 @@
+  <h1>Login to DiEM25</h1>
+
+  <div class="content">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <% if notice %><div class="alert fade in alert-warning"><%= notice %></div><% end %>
+    <% if alert %><div class="alert fade in alert-warning"><%= alert %></div><% end %>
+
+    <div class="form-group">
+      <%= f.label :email, class: "col-sm-4 control-label" %>
+  	  <div class="col-sm-8">
+        <%= f.email_field :email, autofocus: true, class: "form-control" %>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <%= f.label :password, class: "col-sm-4 control-label" %>
+      <div class="col-sm-8">
+        <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+      </div>
+    </div>
+
+    <% if devise_mapping.rememberable? -%>
+    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+    <% end -%>
+    
+    <div>
+      <%= f.submit t('sessions.sign_in'), class: "btn btn-primary", id: "sign_in" %>
+      <%= link_to t('sessions.forgot_password'), new_password_path(resource_name), :class => "btn btn-primary" %>
+      <%= link_to t('sessions.sign_up'), new_registration_path(resource_name), :style => "width: 100%; display: block; margin-top: 2rem;" %>
+    
+      <a href="https://www.iubenda.com/privacy-policy/<%= PRIVACY_POLICY_CODE[I18n.locale] %>" title="<%= t("register.privacy_policy") %>"><%= t("register.privacy_policy") %></a>
+    </div>
+  <% end %>
+  </div>

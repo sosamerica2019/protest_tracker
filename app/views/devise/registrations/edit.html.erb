@@ -1,0 +1,283 @@
+<h2><%= t('register.view_edit') %></h2>
+
+<p>&nbsp;</p>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f| %>
+  
+  <a href="https://www.iubenda.com/privacy-policy/<%= PRIVACY_POLICY_CODE[I18n.locale] %>" title="<%= t("register.privacy_policy") %>"><%= t("register.privacy_policy") %></a>
+  <%= devise_error_messages! %>
+  
+  <h4><%= t('register.enter_password_explanation') %></h4>
+  <div class="form-group">
+    <%= f.label :current_password, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.password_field :current_password, autocomplete: "off", class: "form-control" %>
+	</div>
+  </div>
+  
+  <h4><%= t('register.change_password_title') %></h4>
+  <p><%= t('register.change_password_explanation') %></p>
+  <div class="form-group">
+    <%= f.label :password, t('register.new_password'), class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :password_confirmation, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
+	</div>
+  </div>
+  
+  <h4><%= t('register.change_basic_title') %></h4>
+  
+  
+  <div class="form-group">
+    <%= f.label :personal_name, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :personal_name, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :family_name, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :family_name, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :email, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.email_field :email, class: "form-control" %>
+	  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <p class="helptext">Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+      <% end %>
+	</div>
+  </div>  
+  
+  <div class="form-group">
+    <%= f.label :language, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.select :language, NEWSLETTER_LANGUAGES.sort, {}, class: "form-control" %>
+	  <p class="help-block"><%= t('register.language_explanation') %></p>
+	</div>
+  </div>
+  
+  <p><%= t('register.mobile_explanation') %></p>
+  
+  <div class="form-group">
+    <%= f.label :mobile, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :mobile, class: "form-control" %>
+	</div>
+  </div>
+  
+  <p><%= t('register.optional_explanation_html') %></p>
+  
+  <div class="form-group">
+    <%= f.label :country, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+
+    <%= f.country_select :country, { include_blank: true }, { class: 'form-control' } %>  
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :postal_code, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :postal_code, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :city, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :city, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :address, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_area :address, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :profession, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :profession, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :gender, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.select "gender", options_for_select([ [ t('register.gender_female'), "female"], [t('register.gender_male'), "male"], [t('register.gender_other'), "other"], [t('register.gender_prefer_not'), "prefer not to say"] ], resource.gender), {}, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :birthdate, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.date_field :birthdate, class: "form-control" %>
+	</div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :twitter, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :twitter, class: "form-control", placeholder: "@DiEM_25" %>
+	</div>
+  </div>
+  
+  <p><%= t('register.volunteer_explanation') %></p>
+  
+  <div class="form-group" style="clear: both">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :volunteer %> <b><%= t('register.yes_volunteer') %></b>
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :volunteer_hours_per_week, t('register.volunteer_hours'), class: "col-sm-2 control-label" %>
+	  <div class="col-sm-6">
+      <%= f.text_field :volunteer_hours_per_week, class: "form-control" %>
+	  </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-2">
+      <b><%= t('register.volunteer_prompt') %></b>
+    </div>
+    <div class="col-sm-10">
+		  <% VOLUNTEER_ABILITIES.each do |ability| %>
+        <div class="checkbox">
+          <label>
+            <%= check_box_tag ('volunteer_' + ability).to_sym, "1", @user.volunteer_abilities.include?(ability) %> <%= t('register.volunteer_' + ability) %>
+          </label>
+        </div>
+			<% end %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :volunteer_abilities_desc, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_area :volunteer_abilities_desc, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group" style="clear: both">
+    <div class="col-xs-offset-2 col-xs-10">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :willing_local %> <b><%= t('register.yes_local') %></b>
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :which_local, class: "col-sm-2 control-label" %>
+	  <div class="col-sm-6">
+      <%= f.text_field :which_local, {class: "form-control"} %>
+	  </div>
+  </div>
+	
+	<div class="form-group" style="clear: both">
+    <div class="col-xs-offset-2 col-xs-10">
+      <div class="checkbox">
+        <label>
+          <%= f.check_box :willing_thematic %> <b><%= t('register.yes_thematic') %></b>
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :which_thematic, class: "col-sm-2 control-label" %>
+	  <div class="col-sm-6">
+      <% options = ["European New Deal", "Transparency", "Refugees & Migration", "Constitution", "Tech", "Labour", "Green Transition", "national policies", "other"] %>
+		  <%= f.select :which_thematic, options_for_select(t_for_select(options, 'workgroups'), selected: current_user.which_thematic), { include_blank: true }, { :class => 'form-control mbottom'} %>
+	  </div>
+  </div>
+  
+  <p><%= string_with_link(t('register.volunteer_local_html'), public_dscs_path)  %></p> 
+	
+	
+  <p>&nbsp;</p>
+  <h4 class="col-xs-offset-1"><%= t('register.party_info') %></h4>
+	
+	<div class="form-group">
+    <%= f.label :mera25, t('register.mera25_membership'), class: "col-sm-2 control-label" %>
+	  <div class="col-sm-6 printed-form-data">
+		  <% if current_user.mera25.blank? %><%= t("register.party_non_member") %> - <%= link_to t("register.headline"), mera25_path %>
+			<% else %>
+			  <%= t("register.party_member") %>
+			<% end %>
+	  </div>
+	</div>
+	
+	<div class="form-group">
+    <%= f.label :full_legal_name, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :full_legal_name, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :voting_district, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :voting_district, class: "form-control" %>
+	</div>
+  </div>
+	
+	<div class="form-group">
+    <%= f.label :other_parties, class: "col-sm-2 control-label" %>
+	<div class="col-sm-6">
+      <%= f.text_field :other_party, class: "form-control" %>
+	</div>
+  </div>
+    
+  <hr>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-6">
+      <%= f.submit t('buttons.update'), class: "btn btn-lg btn-primary" %>  <%= link_to ("| " + t('buttons.back')), :root, class: "btn-lg" %>
+    </div>
+  </div>
+ 
+<% end %>
+<p>&nbsp;</p>
+<hr>
+
+<p>If you want, DiEM25 can send you all data that is associated with your membership (e.g. presentations, donations, and which votes you participated in) to your email address.</p>
+
+<p><%= link_to "Export my data", export_my_data_path, method: :post, class: "btn btn-danger" %></p>
+
+<p>In order to download your forum posts, records of Likes and so on, please go to your Forum settings, Activity tab, and click 'Download all' there, because this is stored in a separate database.</p>
+
+<hr>
+<p>&nbsp;</p>
+
+<h3><a id="leave" name="leave"></a><%= t('register.cancel_account_title') %></h3>
+
+<p><%= string_with_link(t('register.cancel_account_explanation1'), "mailto:complaints@diem25.org")  %> <b><%= t('register.cancel_account_explanation2') %></b></p>
+
+<%= form_for(current_user, url: registration_path(resource_name), method: :delete) do |f| %>
+	<b style="color:red"><%= t('activerecord.attributes.user.current_password') %></b> <%= password_field_tag :password, autocomplete: "off" %><br>
+	<% # What should happen to your forum posts (if any)? radio_button_tag(:forum_posts, "anonymise", true) anonymise radio_button_tag(:forum_posts, "delete") delete<br>  %> 
+	<p><b><%= linkup_email(t('register.cancel_forum')) %></b></p>
+	<%= f.submit t('buttons.cancel_account'), data: { confirm: t('general.you_sure') },  class: "btn btn-danger"  %>
+<% end %>
+
+
+

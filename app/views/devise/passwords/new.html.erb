@@ -1,0 +1,18 @@
+<h1><%= t('sessions.forgot_password') %></h1>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <% if notice %><div class="alert fade in alert-warning"><%= notice %></div><% end %>
+  <% if alert %><div class="alert fade in alert-warning"><%= alert %></div><% end %>
+		
+  <%= devise_error_messages! %>
+
+  <div class="form-group"><%= f.label :email, class: "col-sm-4 control-label" %>
+    <div class="col-sm-8">
+      <%= f.email_field :email, autofocus: true, class: "form-control" %>
+    </div>
+  </div>
+
+  <div><%= f.submit t('sessions.send_password'), class: "btn btn-primary" %></div>
+<% end %>
+
+<%= render "devise/shared/links" %>

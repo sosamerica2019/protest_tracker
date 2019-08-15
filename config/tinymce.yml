@@ -1,0 +1,7 @@
+toolbar:
+  - bold italic | image | link | bullist numlist | undo redo | code preview
+plugins:
+  - image
+  - link
+  - code
+  - preview

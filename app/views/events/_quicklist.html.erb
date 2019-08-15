@@ -1,0 +1,39 @@
+<ul>
+		<% @events.each do |e| %>
+		  <li class="list-group-item"><p class="list-group-item-text"><span class="cal_time"><%= l e.event_start.to_date %></span>
+	      <%= link_to e.title, "javascript:show_event(#{e.id})" %> <span class="badge"><%= e.location_minimini %></span></p>
+	    </li>
+		<% end %>
+		</ul>
+		<div id='event-content'></div>
+		
+		>> <%=link_to t('events.title'), events_path %>
+
+<script>
+function show_event(id) {
+  jQuery.get("/events/" + id + ".js?locale=<%= I18n.locale %>&embed=<%= @embed %>");
+  false;
+}
+</script>
+
+
+<style>
+.calendar-heading {
+  font-size: 22px;
+}
+.cal_event {
+  margin-bottom: 7px;
+}
+.cal_time {
+  margin-right: 15px;
+}
+.badge {
+  margin-left: 15px;
+}
+.list-group-item.disabled {
+  cursor: default!important;
+}
+.list-group.highlighted li {
+  border-color: black;
+}
+</style>

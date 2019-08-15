@@ -1,0 +1,9 @@
+<p>Hallo <%= @resource.name %>!</p>
+
+<p>Ihr DiEM25-internes Konto wurde durch eine übermäßige Anzahl von erfolglosen SignIn - Versuchen gesperrt.</p>
+
+<p>Klicken Sie auf untenstehenden Link, um Ihr Konto zu entsperren:</p>
+
+<p><%= link_to 'Konto entsperren', unlock_url(@resource, unlock_token: @token) %></p>
+
+<p>Carpe DiEM!</p>

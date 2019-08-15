@@ -1,0 +1,64 @@
+<h2>Ongoing Signups Statistics</h2>
+
+<div id="signup_period" class="row">
+  <%= form_tag signups_stats_path, method: "get" do %>
+    <div class="col-sm-1">
+      <label for="from">From</label>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="input-group">
+        <input type="text" class="actual_range form-control datepicker" id="from" name="from" value="<%= @from %>">
+      </div>
+    </div>
+
+    <div class="col-sm-1">
+      <label for="to">To</label>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="input-group">
+        <input type="text" class="actual_range form-control datepicker" id="to" name="to" value="<%= @to %>">
+      </div>
+    </div>
+		
+		<div class="col-sm-2">
+      <div class="input-group">
+			  <%= select_tag :weekly, options_for_select([["daily", false], ["weekly", true]], @weekly), :class => "form-control", :style => "height: 50px" %>
+      </div>
+    </div>
+		
+		<%= hidden_field_tag :attribute, @attribute %>
+
+    <div class="col-sm-2">
+      <%= submit_tag 'Show!', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
+
+<h2><%= @weekly ? "Weekly" : "Daily" %> signups by Paying status</h2>
+
+<%= column_chart signups_by_type_stats_path(from: @from, to: @to, weekly: @weekly), stacked: true, height: '500px' %>
+
+<h2><%= @weekly ? "Weekly" : "Daily" %> signups by <%= @attribute.to_s.capitalize %></h2>
+
+<%= line_chart signups_by_other_stats_path(from: @from, to: @to, weekly: @weekly, attribute: @attribute) %>
+
+<p>&nbsp;</p>
+
+<div id="extra_charts" class="row" style="clear: both">
+  <%= form_tag signups_stats_path, method: "get" do %>
+    <p><strong>Show stats on:</strong>
+		
+    <div class="input-group">
+		  <%= select_tag :attribute, options_for_select(['language', 'gender', 'verification_state', 'volunteer'], @attribute.to_s), :class => "form-control", :style => "height: 50px" %>
+    </div>
+		<%= hidden_field_tag :from, @from %>
+		<%= hidden_field_tag :to, @to %>
+		<%= hidden_field_tag :weekly, @weekly %>
+
+    <%= submit_tag 'Show!', class: 'btn btn-primary' %>
+
+		</strong></p>
+  <% end %>
+</div>

@@ -1,0 +1,9 @@
+<p>Dobrý den <%= @resource.name %>!</p>
+
+<p>Přístup do Vašeho interního účtu DiEM25 byl uzamčen z důvodu nadměrnému počtu neúspěšných pokusů o přihlášení.</p>
+
+<p>Svůj účet obnovíte kliknutím na odkaz níže:</p>
+
+<p><%= unlock_url(@resource, unlock_token: @token) %></p>
+
+<p>Carpe DiEM!</p>

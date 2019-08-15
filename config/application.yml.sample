@@ -1,0 +1,24 @@
+# Add configuration values here. 
+# They will become ENV variables when the application is launched.
+
+# REPLACE WITH ACTUAL VALUES
+
+# Development and production
+  mail_password: ~
+  mailchimp_key: ~
+  mailchimp_list: ~
+  aws_access_key_id: ~
+  aws_secret_access_key: ~
+  aws_bucket: diem25
+  DATABASE_USER: ~
+  DATABASE_PW: ~
+  recaptcha_site_key: 6LcC3D0UAAAAAHHeR_tnYE_MLno3Dvc781CmCfSJ  # for localhost only!! must replace for production
+  recaptcha_secret_key: 6LcC3D0UAAAAACkALebq4bCMJsEPE_D2BGd0KT7M  # ditto
+    
+test:
+  mail_password: ~
+  mailchimp_key: ~
+  mailchimp_list: ~
+  aws_access_key_id: ~
+  aws_secret_access_key: ~
+  aws_bucket: diem25
