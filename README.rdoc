@@ -9,7 +9,7 @@ Develop in git, push to Heroku, very simple.
 
 Ensure you have:
 
-* Ruby 2.3.3
+* Ruby 2.3.3 use rbnev 
 * Rails 5.1
 
 Then:
@@ -17,7 +17,7 @@ Then:
 * Define DB user in ENV, as described in database.yml
 * Change application.yml.sample to application.yml (provide real values)
 * Ensure application.yml NEVER gets committed!
-* bundle install
+* bundle install make sure it is <2.0
 * rake db:migrate
 * create initial user
 * That's probably it!
