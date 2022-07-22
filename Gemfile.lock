@@ -1008,7 +1008,7 @@ GEM
       activesupport (>= 4.2)
       i18n
       pg
-    tzinfo (1.2.7)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     tzinfo-data (1.2018.7)
       tzinfo (>= 1.0.0)
